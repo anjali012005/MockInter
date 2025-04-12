@@ -27,6 +27,7 @@ export default function RootLayout({
         {children}
 
         <Toaster />
+        {/* 42 minn */}
       </body>
     </html>
   );
