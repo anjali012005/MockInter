@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   title: "MockInter",
   description: "An AI-powered platform for preparing for mock interviews. ",
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,4 +30,5 @@ export default function RootLayout({
       </body>
     </html>
   );
+
 }
