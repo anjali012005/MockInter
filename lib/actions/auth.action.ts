@@ -27,11 +27,14 @@ export async function setSessionCookie(idToken: string) {
 }
 
 export async function signUp(params: SignUpParams) {
+  
   const { uid, name, email } = params;
+  console.log("Trying to get user with UID:", uid);
 
   try {
     // check if user exists in db
     const userRecord = await db.collection("users").doc(uid).get();
+    console.log("User record:", userRecord.exists);
     if (userRecord.exists)
       return {
         success: false,
