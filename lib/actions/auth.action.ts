@@ -2,7 +2,6 @@
 
 import { auth, db } from "@/firebase/admin";
 import { cookies } from "next/headers";
-import { toast } from "sonner";
 
 // Session duration (1 week)
 const SESSION_DURATION = 60 * 60 * 24 * 7;
@@ -27,14 +26,11 @@ export async function setSessionCookie(idToken: string) {
 }
 
 export async function signUp(params: SignUpParams) {
-  
   const { uid, name, email } = params;
-  console.log("Trying to get user with UID:", uid);
 
   try {
     // check if user exists in db
     const userRecord = await db.collection("users").doc(uid).get();
-    console.log("User record:", userRecord.exists);
     if (userRecord.exists)
       return {
         success: false,
@@ -57,21 +53,12 @@ export async function signUp(params: SignUpParams) {
     console.error("Error creating user:", error);
 
     // Handle Firebase specific errors
-    // if (error.code === "auth/email-already-exists") {
-    //     toast.error("This email is already registered. Please sign in.");
-    //   return {
-    //     success: false,
-    //     message: "This email is already in use",
-    //   };
-    // }
-
-    if (error.code === "permission-denied") {
+    if (error.code === "auth/email-already-exists") {
       return {
         success: false,
-        message: "Permission denied. Check your Firestore security rules.",
+        message: "This email is already in use",
       };
     }
-
 
     return {
       success: false,
