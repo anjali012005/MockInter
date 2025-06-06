@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 
 import { getCurrentUser } from "@/lib/actions/auth.action";
 
-const Layout = async ({ children }: { children: ReactNode }) => {
+const RootLayout = async ({ children }: { children: ReactNode }) => {
 
   // const user = await getCurrentUser();
   // if (!user) redirect("/sign-in");
@@ -23,4 +23,4 @@ const Layout = async ({ children }: { children: ReactNode }) => {
   );
 };
 
-export default Layout;
+export default RootLayout;
