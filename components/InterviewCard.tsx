@@ -19,7 +19,8 @@ const InterviewCard = ({
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  const [feedback, setFeedback] = useState(null);
+  // const [feedback, setFeedback] = useState(null);
+  const feedback = null as Feedback | null;
 
   useEffect(() => {
     const fetchFeedback = async () => {
@@ -40,9 +41,9 @@ const InterviewCard = ({
       Technical: "bg-light-800",
     }[normalizedType] || "bg-light-600";
 
-  // const formattedDate = dayjs(
-  //   feedback?.createdAt || createdAt || Date.now()
-  // ).format("MMM D, YYYY");
+  const formattedDate = dayjs(
+    feedback?.createdAt || createdAt || Date.now()
+  ).format("MMM D, YYYY");
 
   return (
     <div className="card-border w-[360px] max-sm:w-full min-h-96">
@@ -51,7 +52,7 @@ const InterviewCard = ({
           {/* Type Badge */}
           <div
             className={cn(
-              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg",
+              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-light-600",
               badgeColor
             )}
           >
@@ -79,20 +80,20 @@ const InterviewCard = ({
                 height={22}
                 alt="calendar"
               />
-              {/* <p>{formattedDate}</p> */}
+              <p>{formattedDate}</p>
             </div>
 
             <div className="flex flex-row gap-2 items-center">
               <Image src="/star.svg" width={22} height={22} alt="star" />
-              {/* <p>{feedback?.totalScore || "---"}/100</p> */}
+              <p>{feedback?.totalScore || "---"}/100</p>
             </div>
           </div>
 
           {/* Feedback or Placeholder Text */}
-          {/* <p className="line-clamp-2 mt-5"> */}
-            {/* {feedback?.finalAssessment ||
-              "You haven't taken this interview yet. Take it now to improve your skills."} */}
-          {/* </p> */}
+          <p className="line-clamp-2 mt-5"> 
+            {feedback?.finalAssessment ||
+              "You haven't taken this interview yet. Take it now to improve your skills."} 
+          </p>
         </div>
 
         <div className="flex flex-row justify-between">
