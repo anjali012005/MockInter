@@ -31,15 +31,17 @@ export async function signUp(params: SignUpParams) {
 
   try {
     // check if user exists in db
-    const userRecord = await db.collection("users").doc(uid).get();
+    console.log("UID being used:", uid);
+    console.log("Firestore initialized:", !!db);
+    const userRecord = await db.collection('users').doc(uid).get();
     if (userRecord.exists)
       return {
         success: false,
-        message: "User already exists. Please sign in.",
+        message: "User already exists. Please sign in instead.",
       };
 
     // save user to db
-    await db.collection("users").doc(uid).set({
+    await db.collection('users').doc(uid).set({
       name,
       email,
       // profileURL,
@@ -50,14 +52,14 @@ export async function signUp(params: SignUpParams) {
       success: true,
       message: "Account created successfully. Please sign in.",
     };
-  } catch (error: any) {
-    console.error("Error creating user:", error);
+  } catch (e: any) {
+    console.error("Error creating user:", e);
 
     // Handle Firebase specific errors
-    if (error.code === "auth/email-already-exists") {
+    if (e.code === "auth/email-already-exists") {
       return {
         success: false,
-        message: "This email is already in use",
+        message: "This email is already in use.",
       };
     }
 
@@ -81,7 +83,7 @@ export async function signIn(params: SignInParams) {
 
     await setSessionCookie(idToken);
   } catch (error: any) {
-    console.log("");
+    console.log(error);
 
     return {
       success: false,
@@ -132,22 +134,23 @@ export async function isAuthenticated() {
   return !!user;
 }
 
-export async function getInterviewByUserId(userId: string): Promise<Interview[] | null> {
-  try {
-    const snapshot = await db
-      .collection("interviews")
-      .where("userId", "==", userId)
-      .orderBy("createdAt", "desc")
-      .get();
+// export async function getInterviewByUserId(userId: string): Promise<Interview[] | null> {
+//   try {
 
-    const interviews = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as Interview[];
+//     const snapshot = await db
+//       .collection("interviews")
+//       .where("userId", "==", userId)
+//       .orderBy("createdAt", "desc")
+//       .get();
 
-    return interviews;
-  } catch (error) {
-    console.error("Error fetching interviews:", error);
-    return null;
-  }
-}
+//     const interviews = snapshot.docs.map((doc) => ({
+//       id: doc.id,
+//       ...doc.data(),
+//     })) as Interview[];
+
+//     return interviews;
+//   } catch (error) {
+//     console.error("Error fetching interviews:", error);
+//     return null;
+//   }
+// }

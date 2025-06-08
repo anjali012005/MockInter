@@ -60,31 +60,22 @@ import { onAuthStateChanged } from 'firebase/auth'
 import { auth } from '@/firebase/client'
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
+import { isAuthenticated } from '@/lib/actions/auth.action'
 
 const HomePage = () => {
   const router = useRouter()
   const [loading, setLoading] = useState(true)
-  // const [user, setUser] = useState(null)
-  const [user, setUser] = useState<User | null>(null); 
+  const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        // Redirect to sign-in page if user is not authenticated
-        router.push('/sign-in')
-      } else {
-        setUser(user) // Set the user state if logged in
-      }
-      setLoading(false) // Set loading state to false after auth check
-    })
 
-    return () => unsubscribe() // Clean up the listener on component unmount
-  }, [router])
-
-  // If the auth state is still being checked, show loading state
-  if (loading) {
-    return <div>Loading...</div>
+  if (!isAuthenticated) {
+    router.push('/sign-in');
   }
+
+
+  // if (loading) {
+  //   return <div>Loading...</div>
+  // }
 
   return (
     <>
@@ -94,7 +85,7 @@ const HomePage = () => {
           <p className='text-lg'>
             Practice on real interview questions & get instant feedback
           </p>
-          <Button asChild className='btn-primary'>
+          <Button asChild className='btn-primary max-sm:w-full'>
             <Link href="/interview">Start an Interview</Link>
           </Button>
         </div>
