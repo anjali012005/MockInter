@@ -178,7 +178,7 @@ const Agent = ({
         </div>
       </div>
 
-      {messages.length > 0 && (
+      {messages.length > 0  && (
         <div className="transcript-border">
           <div className="transcript">
             <p
