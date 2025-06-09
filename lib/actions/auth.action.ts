@@ -111,7 +111,7 @@ export async function getCurrentUser(): Promise<User | null> {
 
     // get user info from db
     const userRecord = await db
-      .collection("users")
+      .collection('users')
       .doc(decodedClaims.uid)
       .get();
     if (!userRecord.exists) return null;
