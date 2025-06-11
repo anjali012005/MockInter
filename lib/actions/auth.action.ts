@@ -134,23 +134,29 @@ export async function isAuthenticated() {
   return !!user;
 }
 
-// export async function getInterviewByUserId(userId: string): Promise<Interview[] | null> {
-//   try {
+export async function getInterviewByUserId(userId: string): Promise<Interview[] | null> {
+  try {
 
-//     const snapshot = await db
-//       .collection("interviews")
-//       .where("userId", "==", userId)
-//       .orderBy("createdAt", "desc")
-//       .get();
+    const user = await getCurrentUser();
+    if (user) {
+      const interviews = await getInterviewByUserId(user.id);
+    } else {
+      console.log("User is not authenticated");
+    }
 
-//     const interviews = snapshot.docs.map((doc) => ({
-//       id: doc.id,
-//       ...doc.data(),
-//     })) as Interview[];
+    const interviews = await db
+      .collection("interviews")
+      .where("userId", "==", userId)
+      .orderBy("createdAt", "desc")
+      .get();
 
-//     return interviews;
-//   } catch (error) {
-//     console.error("Error fetching interviews:", error);
-//     return null;
-//   }
-// }
+    return interviews.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    })) as Interview[];
+
+  } catch (error) {
+    console.error("Error fetching interviews:", error);
+    return null;
+  }
+}
