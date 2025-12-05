@@ -51,18 +51,18 @@ Vapi Agent / OpenAI API for AI responses
 
 Tailwind CSS + ShadCN UI
 
-📂 Project Structure
-MockInter/
-│── app/                 # Next.js app router pages
-│── components/          # UI components
-│── firebase/            # Firebase config and setup
-│── lib/                 # Utilities, helpers
-│── types/               # TypeScript types
-│── public/              # Static assets
-│── constants/           # Reusable constants
-│── next.config.ts
-│── package.json
-│── README.md
+📂 Project Structure<br/>
+MockInter/<br/>
+│── app/                 <br/>
+│── components/        <br/>
+│── firebase/          <br/>
+│── lib/               <br/>
+│── types/              <br/>
+│── public/             <br/>
+│── constants/          <br/>
+│── next.config.ts <br/>
+│── package.json <br/>
+│── README.md <br/>
 
 🛠️ Getting Started
 1️⃣ Install Dependencies
@@ -83,12 +83,12 @@ The app will be available at:
 
 Create a .env.local file:
 
-NEXT_PUBLIC_FIREBASE_API_KEY=...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=...
+NEXT_PUBLIC_FIREBASE_API_KEY=...<br/>
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=...<br/>
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=...<br/>
 
-OPENAI_API_KEY=...
-VAPI_AGENT_KEY=...
+OPENAI_API_KEY=...<br/>
+VAPI_AGENT_KEY=...<br/>
 
 🤖 How It Works
 
@@ -98,7 +98,10 @@ AI agent (Vapi) starts a real-time voice session
 
 Your answers are evaluated
 
-Feedback & score generated using LLM
+Feedback & score generated
 
 Data saved to Firebase for future insights
 
+## 💛 Author <br/>
+Anjali Daharwal<br/>
+CS Student | Web Developer | Java Developer | Full-Stack Developer
