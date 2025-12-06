@@ -15,7 +15,7 @@ export async function signUp(params: SignUpParams) {
     // check if user exists in db
     console.log("UID being used:", uid);
     console.log("Firestore initialized:", !!db);
-    
+
     const userRecord = await db.collection('users').doc(uid).get();
     if (userRecord.exists){
       return {
@@ -109,6 +109,7 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
 
   const sessionCookie = cookieStore.get("session")?.value;
+  
   console.log(sessionCookie + "It's sessionCoockie");
   if (!sessionCookie) return null;
 

@@ -8,8 +8,10 @@ import { Toaster } from "sonner";
 
 const RootLayout = async ({ children }: { children: ReactNode }) => {
 
-  // const isUserAuthenticated  = await isAuthenticated();
-  // if (!isUserAuthenticated) redirect("/sign-in");
+  const isUserAuthenticated  = await isAuthenticated();
+
+  
+  if (!isUserAuthenticated) redirect("/sign-in");
   
   return (
     <div className="root-layout">
