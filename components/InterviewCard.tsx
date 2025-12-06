@@ -1,9 +1,6 @@
-'use client'
-
 import dayjs from "dayjs";
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 import { Button } from "./ui/button";
 import DisplayTechIcons from "./DisplayTechIcons";
@@ -11,7 +8,7 @@ import DisplayTechIcons from "./DisplayTechIcons";
 import { cn, getRandomInterviewCover } from "@/lib/utils";
 import { getFeedbackByInterviewId } from "@/lib/actions/general.action";
 
-const InterviewCard = ({
+const InterviewCard = async ({
   interviewId,
   userId,
   role,
@@ -19,18 +16,13 @@ const InterviewCard = ({
   techstack,
   createdAt,
 }: InterviewCardProps) => {
-  // const [feedback, setFeedback] = useState(null);
-  const feedback = null as Feedback | null;
-
-  useEffect(() => {
-    const fetchFeedback = async () => {
-      if (userId && interviewId) {
-        const result = await getFeedbackByInterviewId({ interviewId, userId });
-        // setFeedback(result);
-      }
-    };
-    fetchFeedback();
-  }, [interviewId, userId]);
+  const feedback =
+    userId && interviewId
+      ? await getFeedbackByInterviewId({
+          interviewId,
+          userId,
+        })
+      : null;
 
   const normalizedType = /mix/gi.test(type) ? "Mixed" : type;
 
@@ -52,7 +44,7 @@ const InterviewCard = ({
           {/* Type Badge */}
           <div
             className={cn(
-              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg bg-light-600",
+              "absolute top-0 right-0 w-fit px-4 py-2 rounded-bl-lg",
               badgeColor
             )}
           >
@@ -90,9 +82,9 @@ const InterviewCard = ({
           </div>
 
           {/* Feedback or Placeholder Text */}
-          <p className="line-clamp-2 mt-5"> 
+          <p className="line-clamp-2 mt-5">
             {feedback?.finalAssessment ||
-              "You haven't taken this interview yet. Take it now to improve your skills."} 
+              "You haven't taken this interview yet. Take it now to improve your skills."}
           </p>
         </div>
 

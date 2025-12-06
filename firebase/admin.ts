@@ -22,6 +22,7 @@ const  initFirebaseAdmin = () => {
     db: getFirestore(),
   };
 }
+console.log(process.env.FIREBASE_CLIENT_EMAIL + "FIREBASE_CLIENT_EMAIL");
 
 
 export const { auth, db } = initFirebaseAdmin();

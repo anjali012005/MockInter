@@ -7,24 +7,6 @@ import { cookies } from "next/headers";
 // Session duration (1 week)
 const SESSION_DURATION = 60 * 60 * 24 * 7;
 
-// Set session cookie
-export async function setSessionCookie(idToken: string) {
-  const cookieStore = await cookies();
-
-  // Create session cookie
-  const sessionCookie = await auth.createSessionCookie(idToken, {
-    expiresIn: SESSION_DURATION * 1000, // milliseconds
-  });
-
-  // Set cookie in the browser
-  cookieStore.set("session", sessionCookie, {
-    maxAge: SESSION_DURATION,
-    httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
-    path: "/",
-    sameSite: "lax",
-  });
-}
 
 export async function signUp(params: SignUpParams) {
   const { uid, name, email } = params;
@@ -33,13 +15,14 @@ export async function signUp(params: SignUpParams) {
     // check if user exists in db
     console.log("UID being used:", uid);
     console.log("Firestore initialized:", !!db);
+    
     const userRecord = await db.collection('users').doc(uid).get();
-    if (userRecord.exists)
+    if (userRecord.exists){
       return {
         success: false,
         message: "User already exists. Please sign in instead.",
       };
-
+    }
     // save user to db
     await db.collection('users').doc(uid).set({
       name,
@@ -65,7 +48,7 @@ export async function signUp(params: SignUpParams) {
 
     return {
       success: false,
-      message: "Failed to create account. Please try again.",
+      message: "Failed to create an account. Please try again.",
     };
   }
 }
@@ -75,22 +58,44 @@ export async function signIn(params: SignInParams) {
 
   try {
     const userRecord = await auth.getUserByEmail(email);
-    if (!userRecord)
+
+    if (!userRecord){
       return {
         success: false,
         message: "User does not exist. Create an account.",
       };
+    }
 
     await setSessionCookie(idToken);
+
   } catch (error: any) {
     console.log(error);
 
     return {
       success: false,
-      message: "Failed to log into account. Please try again.",
+      message: "Failed to log into an account. Please try again.",
     };
   }
 }
+
+export async function setSessionCookie(idToken: string) {
+  const cookieStore = await cookies();
+
+  // Create session cookie
+  const sessionCookie = await auth.createSessionCookie(idToken, {
+    expiresIn: SESSION_DURATION * 1000, // milliseconds
+  });
+
+  // Set cookie in the browser
+  cookieStore.set("session", sessionCookie, {
+    maxAge: SESSION_DURATION, // ONE_WEEK
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    path: "/",
+    sameSite: "lax",
+  });
+}
+
 
 // Sign out user by clearing the session cookie
 export async function signOut() {
@@ -104,6 +109,7 @@ export async function getCurrentUser(): Promise<User | null> {
   const cookieStore = await cookies();
 
   const sessionCookie = cookieStore.get("session")?.value;
+  console.log(sessionCookie + "It's sessionCoockie");
   if (!sessionCookie) return null;
 
   try {
@@ -139,7 +145,7 @@ export async function getInterviewByUserId(userId: string): Promise<Interview[] 
 
     const user = await getCurrentUser();
     if (user) {
-      const interviews = await getInterviewByUserId(user.id);
+      // const interviews = await getInterviewByUserId(user.id);
     } else {
       console.log("User is not authenticated");
     }
