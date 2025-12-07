@@ -87,7 +87,10 @@ const AuthForm = ({ type }: { type: FormType }) => {
         });
 
         toast.success("Signed in successfully.");
-        router.push("/");
+        // router.push("/");
+        auth.onAuthStateChanged((user) => {
+          if (user) router.push("/"); // Only redirect after Firebase confirms user is logged in
+        });
       }
     } catch (error) {
       console.log(error);
