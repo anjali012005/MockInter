@@ -1,6 +1,6 @@
 ## An AI-powered platform for practicing real-time mock interviews.
 
-MockInter helps candidates prepare for interviews using AI-driven voice interactions, instant feedback, and personalized interview flows—built with Next.js, Firebase, and the OpenAI / Vapi Agent API.
+MockInter helps candidates prepare for interviews using AI-driven voice interactions, instant feedback, and personalized interview flows—built with Next.js, Firebase, and the OpenAI / Vapi Agent API....
 
 <img width="1902" height="980" alt="image" src="https://github.com/user-attachments/assets/7259fce3-750b-47ce-b847-1571717c7196" />
 <img width="1831" height="806" alt="image" src="https://github.com/user-attachments/assets/f598b71c-65ef-48c7-80fe-235c01262a85" />
