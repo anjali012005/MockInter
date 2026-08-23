@@ -66,32 +66,61 @@ const AuthForm = ({ type }: { type: FormType }) => {
 
         toast.success("Account created successfully. Please sign in.");
         router.push("/sign-in");
+      // } else {
+      //   const { email, password } = values;
+
+      //   const userCredential = await signInWithEmailAndPassword(
+      //     auth,
+      //     email,
+      //     password
+      //   );
+
+      //   const idToken = await userCredential.user.getIdToken();
+      //   if (!idToken) {
+      //     toast.error("Sign in Failed. Please try again.");
+      //     return;
+      //   }
+
+      //   await signIn({
+      //     email,
+      //     idToken,
+      //   });
+
+      //   toast.success("Signed in successfully.");
+      //   // router.push("/");
+      //   auth.onAuthStateChanged((user) => {
+      //     if (user) router.push("/"); // Only redirect after Firebase confirms user is logged in
+      //   });
+      // }
       } else {
-        const { email, password } = values;
+  const { email, password } = values;
 
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
-          email,
-          password
-        );
+  const userCredential = await signInWithEmailAndPassword(
+    auth,
+    email,
+    password
+  );
 
-        const idToken = await userCredential.user.getIdToken();
-        if (!idToken) {
-          toast.error("Sign in Failed. Please try again.");
-          return;
-        }
+  const idToken = await userCredential.user.getIdToken();
 
-        await signIn({
-          email,
-          idToken,
-        });
+  if (!idToken) {
+    toast.error("Sign in Failed. Please try again.");
+    return;
+  }
 
-        toast.success("Signed in successfully.");
-        // router.push("/");
-        auth.onAuthStateChanged((user) => {
-          if (user) router.push("/"); // Only redirect after Firebase confirms user is logged in
-        });
-      }
+  const result = await signIn({
+    email,
+    idToken,
+  });
+
+  if (!result?.success) {
+    toast.error(result?.message || "Sign in failed.");
+    return;
+  }
+
+  toast.success("Signed in successfully.");
+  router.push("/");
+}
     } catch (error) {
       console.log(error);
       toast.error(`There was an error: ${error}`);
